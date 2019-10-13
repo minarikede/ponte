@@ -1,0 +1,18 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <changeSet author="kovacsaba" id="201910151000">
+    <createTable tableName="image_meta" >
+      <column name="id" type="varchar(255)"/>
+      <column name="name" type="varchar(255)"/>
+      <column name="mime_type" type="varchar(255)"/>
+      <column name="size" type="int"/>
+      <column name="digital_sign" type="text"/>
+      <column name="base64_file" type="blob"/>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>
