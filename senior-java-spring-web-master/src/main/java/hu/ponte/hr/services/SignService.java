@@ -27,8 +27,7 @@ public class SignService {
   private String signatureAlgorithm;
 
   public String sign(byte[] bytes) throws Exception {
-    File file = ResourceUtils.getFile(privateKeyPath);
-    PrivateKey privateKey = getPrivateKey(file.getPath());
+    PrivateKey privateKey = getPrivateKey();
 
     Signature privateSignature = Signature.getInstance(signatureAlgorithm);
     privateSignature.initSign(privateKey);
@@ -40,8 +39,7 @@ public class SignService {
   }
 
   public boolean verify(byte[] bytes, String signature) throws Exception {
-    File file = ResourceUtils.getFile(publicKeyPath);
-    PublicKey publicKey = getPublicKey(file.getPath());
+    PublicKey publicKey = getPublicKey();
 
     Signature publicSignature = Signature.getInstance(signatureAlgorithm);
     publicSignature.initVerify(publicKey);
@@ -52,10 +50,11 @@ public class SignService {
     return publicSignature.verify(signatureBytes);
   }
 
-  private PrivateKey getPrivateKey(String filename)
+  private PrivateKey getPrivateKey()
       throws Exception {
+    File file = ResourceUtils.getFile(privateKeyPath);
 
-    byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+    byte[] keyBytes = Files.readAllBytes(Paths.get(file.getPath()));
 
     PKCS8EncodedKeySpec spec =
         new PKCS8EncodedKeySpec(keyBytes);
@@ -63,10 +62,11 @@ public class SignService {
     return kf.generatePrivate(spec);
   }
 
-  private PublicKey getPublicKey(String filename)
+  private PublicKey getPublicKey()
       throws Exception {
+    File file = ResourceUtils.getFile(publicKeyPath);
 
-    byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+    byte[] keyBytes = Files.readAllBytes(Paths.get(file.getPath()));
 
     X509EncodedKeySpec spec =
         new X509EncodedKeySpec(keyBytes);
